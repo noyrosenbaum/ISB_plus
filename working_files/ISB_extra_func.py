@@ -74,36 +74,40 @@ def overlay_ocr_text(img_path):
             #     cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
             # else:
             # print("This is not a PAN card.")
-            if nuk == 8 and re.match(r'^[A-Z]{3}\d{3}[A-Z]\d$', num):
-                cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
+            # if nuk == 8 and re.match(r'^[A-Z]{3}\d{3}[A-Z]\d$', num):
+            #     cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
 
-            if nuk == 14 and re.match(r'^\d{4} \d{4} \d{4}$', num):
-                cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
-            else:
-                print("This is not an Aadhar card.")
+            # if nuk == 14 and re.match(r'^\d{4} \d{4} \d{4}$', num):
+            #     cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
+            # else:
+            #     print("This is not an Aadhar card.")
 
-            if "+91" in num:
-                cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
+            # if "+91" in num:
+            #     cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
 
-            if "Plot no" in num:
-                cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
+            # if "Plot no" in num:
+            #     cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
 
-            if "1234" in num:
-                cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
+            # if "1234" in num:
+            #     cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
 
             #  Noy's addition
             credit_card_pattern = r'^\d{16}$'
             card_expiry = '\d{2}/\d{2}'
-            if num == 16 and re.match(credit_card_pattern, num):
-                cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
-            else:
-                print("This is not a credit card number")
+            # if num == 16 and re.match(credit_card_pattern, num):
+            #     cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
+            # else:
+            #     print("This is not a credit card number")
                 
             if re.findall(card_expiry, num):
                 cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
                 print("This is a credit card expiry!!!!!!!!!!!!!!!!!!!!!!")
             else:
                 print("This is not a card expiry")
+            # Check if text has 4 characters and at least 2 digits
+            if nuk >= 4 and sum(c.isdigit() for c in num) >= 2:
+                cv2.rectangle(img=img, pt1=top_left, pt2=bottom_right, color=(0, 255, 0), thickness=-1)
+                print("This is a credit card number")
             
 
     # # Noy's addition for credit cards detection below #
@@ -128,7 +132,7 @@ def overlay_ocr_text(img_path):
 
 
 # Example usage
-im_1_path = '61.jpg'
+im_1_path = '77.jpg'
 if hasattr(Image, 'Resampling'):
     print("Resampling attribute exists")
 else:
