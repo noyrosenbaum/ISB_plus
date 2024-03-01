@@ -65,6 +65,8 @@ os.makedirs(output_dir, exist_ok=True)
 
 # Initialize flag to check if any of the specified classes are detected
 class_detected = False
+date_match_counter = 0
+num_match_counter = 0
 
 # Process each image in the images_dir directory
 for image_name in os.listdir(images_dir):
@@ -93,14 +95,26 @@ for image_name in os.listdir(images_dir):
                     label_ocr = text_ocr
                     class_detected = True  # Set flag if any of the specified classes are detected
                 # Draw rectangle around the detected object
-                cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)
+                # cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)
                 label_yolo = cv2.putText(image, results.names[int(class_id)].upper(), (int(x1), int(y1 - 10)),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
                 
-                 # Iterate over recognized objects from OCR and compare class names with YOLO
-                for obj_text, obj_class in recognized_objects:
-                    if obj_class == class_name:
-                        print(f"OCR and YOLO detected the same class: {class_name}, Text: {obj_text}")
+            # Iterate over recognized objects from OCR and bounding boxes from YOLO simultaneously
+            for obj_text, obj_class in recognized_objects:
+                for result in results.boxes.data.tolist():
+                    x1, y1, x2, y2, score, class_id = result
+                    yolo_class_name = results.names[int(class_id)].lower()
+
+                    if obj_class == yolo_class_name == "exp_date":
+                        date_match_counter += 1
+                        print(f"Both models recognized expiration date in {date_match_counter} cases")
+                    elif obj_class == yolo_class_name == "card_number":
+                        num_match_counter += 1
+                        print(f"Both models recognized card number in {num_match_counter} cases")
+                    else:
+                        print(f"OCR and YOLO detected different classes: OCR - {obj_class}, YOLO - {yolo_class_name}, Text: {obj_text}")
+                
+                
 
                 # Check if the class is "card_number", "exp_dates", or "holder_name"
                 if class_name in ["card_number", "exp_date", "holder_name"]:
@@ -110,7 +124,8 @@ for image_name in os.listdir(images_dir):
 
          # If none of the specified classes are detected, perform OCR on the entire image
         if not class_detected:
-            text_ocr = perform_ocr_on_image(image, (0, 0, image.shape[1], image.shape[0]), "unknown")    
+            text_ocr = perform_ocr_on_image(image, (0, 0, image.shape[1], image.shape[0]), "unknown")
+            image[int(y1):int(y2), int(x1):int(x2)] = 0    
 
         # Save the processed image to the output directory
         output_path = os.path.join(output_dir, f'result_{image_name}')
