@@ -1,6 +1,15 @@
 # Sensitive data detection with EasyOCR and YOLOv8 Models
 
-[[_TOC_]]
+- [Sensitive data detection with EasyOCR and YOLOv8 Models](#sensitive-data-detection-with-easyocr-and-yolov8-models)
+  - [Abstract](#abstract)
+  - [Achieved Contribution](#achieved-contribution)
+  - [ISB Work](#isb-work)
+    - [Methodology of ISB](#methodology-of-isb)
+  - [Our Work - "ISB Plus"](#our-work---isb-plus)
+    - [Methodology of ISB Plus](#methodology-of-isb-plus)
+  - [Results](#results)
+    - [Average IoU](#average-iou)
+    - [Runtime](#runtime)
 
 ## Abstract
 Text detection or in general object detection has been an area of intensive research accelerated with deep learning. 
