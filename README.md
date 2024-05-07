@@ -1,5 +1,7 @@
 # Sensitive data detection with EasyOCR and YOLOv8 Models
 
+[[_TOC_]]
+
 ## Abstract
 Text detection or in general object detection has been an area of intensive research accelerated with deep learning. 
 Today, object detection, and in our case, text detection, can be achieved through two approaches: Region-Based detectors and Single Shot detectors. In Region-Based methods, the first objective is to find all the regions which have the objects and then pass those regions to a classifier, which gives us the locations of the required objects. So, it is a two-step process. 
